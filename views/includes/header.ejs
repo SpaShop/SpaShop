@@ -121,20 +121,27 @@
         </div>
  
   
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
+         <!-- Sidebar Menu -->
+         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
 
               
+                <% if( session_role == "admin"){ %>
+                    <%- include('../menu/manage_emp'); %>
+                    <%- include('../menu/manage_role'); %>
+                <% } %>
+                
               
             </li>
             
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
+
+        
       </div>
       <!-- /.sidebar -->
     </aside>
