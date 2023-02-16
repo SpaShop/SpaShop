@@ -18,7 +18,13 @@ const employee = new mongoose.Schema({
     Emp_Password : String ,
     Emp_Flag_login : Number ,
     Emp_Flag : Number ,
-    Position_id : Number 
+    Position_id : Number ,
+    id : Number 
+});
+
+const employee_position = new mongoose.Schema({
+    name : String ,
+    id : Number 
 });
 
 
@@ -27,8 +33,8 @@ const employee = new mongoose.Schema({
 
 
 
-
-module.exports.EmployeeModel = mongoose.model('Employee', employee);
+module.exports.Emp_Model = mongoose.model('Employee', employee);
+module.exports.Emp_posiiton_Model = mongoose.model('Employee_position', employee_position);
 
 
 

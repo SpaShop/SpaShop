@@ -13,9 +13,9 @@ app.set('views', 'views');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')))
+app.use('/admin', express.static(path.join(__dirname, 'public')))
+app.use('/emp', express.static(path.join(__dirname, 'public')))
 
-// app.use('/admin', express.static(path.join(__dirname, 'public')))
-// app.use('/user', express.static(path.join(__dirname, 'public')))
 
 app.use("/axios",express.static('node_modules/axios/dist'));
 
@@ -28,14 +28,12 @@ app.use(session({
 const loginRoutes = require('./routes/login');
 const adminRoutes = require('./routes/admin');
 const empRoutes = require('./routes/emp');
-const { log } = require('console');
 
 
 
-app.use('/',loginRoutes);
 app.use('/admin',adminRoutes);
 app.use('/emp',empRoutes);
-
+app.use('/',loginRoutes);
 
 
 

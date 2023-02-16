@@ -201,8 +201,10 @@
 				timeout:3000
 			}).then((result)=>{
 				console.log(result.data);
-				if( result.sucess ){
+				if( result.data.success){
+					window.location=result.data.path;
 					console.log("PASS");
+
 				}else{
 					$('#alert-error1').removeClass('d-none');
 					$('#alert-error1').text(result.data.code)
