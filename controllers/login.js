@@ -6,12 +6,11 @@ exports.logout = (req, res) => {
     res.redirect('/');
 };
 
+
 exports.getLogin = (req, res) => {
 
 
-    // req.session.user_id = 47;
-    // req.session.user = "ภูริกรณ์ ทองย้อย";
-    // req.session.role = "admin";
+    
     
     if( req.session.user_id ){
         res.redirect(`/${req.session.role}`)
