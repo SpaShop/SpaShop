@@ -1,10 +1,10 @@
 
 const mongoose = require('mongoose');
-main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/SpaShop');
+    await mongoose.connect('mongodb://127.0.0.1:27017/SpaShop');
 }
-
+main().catch(err => console.log(err));
+mongoose.set('strictQuery', false);
 
 
 const employee = new mongoose.Schema({
@@ -30,8 +30,5 @@ const employee_position = new mongoose.Schema({
 
 module.exports.Emp_Model = mongoose.model('Employee', employee);
 module.exports.Emp_posiiton_Model = mongoose.model('Employee_position', employee_position);
-
-
-
 // module.exports.mongoose =  mongoose;
 // exports.connection = connection;
