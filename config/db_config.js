@@ -1,3 +1,36 @@
+const mysql = require('mysql');
+const util = require('util');
+
+
+const pool = mysql.createPool({
+    connectionLimit:10,
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "spashop"
+})
+pool.getConnection((err,connection)=>{
+    if(err) throw err
+    if(connection)connection.release()
+    return
+})
+
+pool.query = util.promisify(pool.query);
+
+module.exports = pool
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 const mongoose = require('mongoose');
 async function main() {
@@ -8,6 +41,7 @@ mongoose.set('strictQuery', false);
 
 
 const employee = new mongoose.Schema({
+    _id:Number,
     Emp_FName : String ,
     Emp_LName : String ,
     Emp_Address : String ,
@@ -18,12 +52,11 @@ const employee = new mongoose.Schema({
     Emp_Flag_login : Number ,
     Emp_Flag : Number ,
     Position_id : Number ,
-    id : Number 
 });
 
 const employee_position = new mongoose.Schema({
+    _id:Number,
     name : String ,
-    id : Number 
 });
 
 
@@ -32,3 +65,5 @@ module.exports.Emp_Model = mongoose.model('Employee', employee);
 module.exports.Emp_posiiton_Model = mongoose.model('Employee_position', employee_position);
 // module.exports.mongoose =  mongoose;
 // exports.connection = connection;
+
+*/

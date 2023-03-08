@@ -1,15 +1,17 @@
-const {Emp_Model,Emp_posiiton_Model} = require('../config/db_config.js')
+const con = require('../config/db_config.js')
 const sha = require('../config/encrypt')
 
 
 exports.vertify_login = async (input) => {
-    let result = await Emp_Model.findOne({ Emp_Username: input.user , Emp_Password: sha.encrypt(input.pwd) ,Emp_Flag : 1 })
-    if(result){
-        result = result.toObject();
-        let role = await Emp_posiiton_Model.findOne({ id: result.Position_id })
-        result.position = role.name;
+    let sql = ` SELECT em.id ,em.f_name,em.l_name ,em.position_id , em_pos.name as position FROM employee em , employee_position em_pos 
+                where em_pos.id = em.position_id and em.username = '${input.user}' and em.password = '${sha.encrypt(input.pwd)}' and em.flag = ${1}`
+    let result = await con.query(sql)
+    // console.log(result);
+    if( result.length > 0 ){
+        return result[0];
+    }else{
+        return undefined;
     }
-    return result || ""
 };
 
 
@@ -18,17 +20,19 @@ exports.vertify_login = async (input) => {
 
 
 
-// exports.get_position = async (input) => {
-//     // console.log(input);
-//     let result = await EmployeeModel.findOne({ Emp_Username: input.user , Emp_Password: input.pwd })
-//     // console.log(result);
-//     return result || ""
-// };
-// const small = new EmployeeModel({ Emp_FName: 'small' ,
-//                                         Emp_Flag:await EmployeeModel.find({}).count()+1
-//     });
+/*
+    ---- Pattern ---
+    let sql = ` SELECT em.id ,em.f_name,em.l_name , em_pos.name as position FROM employee em , employee_position em_pos 
+                    where em_pos.id = em.position_id and em.username = '${input.user}' and em.password = '${sha.encrypt(input.pwd)}' and em.flag = ${1}`
+    let result = await con.query(sql)
+    // console.log(result);
+    if( result.length > 0 ){
+        return result[0];
+    }else{
+        return undefined;
+    }
 
-//     small.save(function (err) {
-//     if (err) return handleError(err);
-//     // saved!
-//     });
+    --- Pattern Get ---
+    let result = await data_login.vertify_login(req.body);
+*/
+

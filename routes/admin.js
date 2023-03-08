@@ -9,7 +9,10 @@ const manage_role_Controller = require('../controllers/admin_controller/manage_r
 router.get('/', admin_Controller.getAdmin);
 
 router.get('/manage_emp', manage_emp_Controller.Manage_emp);
+router.post('/manage_emp/:action', manage_emp_Controller.setEmployee);
+
 router.get('/manage_role', manage_role_Controller.Manage_role);
+
 
 
 module.exports = router;
