@@ -22,38 +22,41 @@ exports.Manage_emp = async (req, res) => {
 
 };
 
+
 exports.setEmployee =async (req, res) => {
     if(req.session.role == "admin"){
         if(req.params.action === "add"){
-            // is match with old data
-            // let isVali = await data_manage.getValidation_NAME_USERNAME(req.body).then((data)=>{return data})
-            // if(isVali === true){
-            //     data_manage.setData_Employee(req.body).then(()=>{
-            //         res.redirect("/admin/manage_employee");
-            //     });
-            // }else{
-            //     res.redirect("/admin/manage_employee?error=1");
-            // }
-            
+            await model.insert_emp(req.body).then((data)=>{return data});
+            res.redirect("../manage_emp");
         }else if(req.params.action === "delete"){
-            // data_manage.deleteData_Employee(req.body).then(()=>{
-            //     res.redirect("/admin/manage_employee");
-            // });
+            await model.delete_emp(req.body).then((data)=>{return data});
+            res.redirect("../manage_emp");
         }else if(req.params.action === "update"){
-            // is match with old data
-            // let isVali = await data_manage.getValidation_NAME_update(req.body).then((data)=>{return data})
-            // if(isVali === true){
-            //     data_manage.updateData_Employee(req.body).then(()=>{
-            //         console.log("update done");
-            //         res.redirect("/admin/manage_employee");
-            //     });
-            // }else{
-            //     res.redirect("/admin/manage_employee?error=2");
-            // }
+            await model.update_emp(req.body).then((data)=>{return data});
+            res.redirect("../manage_emp");
         }
     }else{
         res.redirect("/");
     }
 };
 
-// setEmployee
+// ---------------------- AIP ----------------------
+
+exports.is_duplicate_name = async (req, res) => {
+    let is_same = await model.is_duplicate_name(req.query).then((data)=>{return data})
+    if(is_same === false){
+        res.send({status:1});
+    }else{
+        res.send({status:-1});
+    }
+};
+exports.is_duplicate_name_id = async (req, res) => {
+    let is_same = await model.is_duplicate_name_id(req.query).then((data)=>{return data})
+    if(is_same === false){
+        res.send({status:1});
+    }else{
+        res.send({status:-1});
+    }
+};
+
+// ---------------------- AIP ----------------------

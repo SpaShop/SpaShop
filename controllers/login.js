@@ -10,7 +10,7 @@ exports.logout = (req, res) => {
 exports.getLogin = (req, res) => {
     // TEST
     req.session.user_id = 1;
-    req.session.user = "hello";
+    req.session.user = "hello hello";
     req.session.role = 'admin';
     // TEST
 

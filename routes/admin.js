@@ -13,6 +13,9 @@ router.post('/manage_emp/:action', manage_emp_Controller.setEmployee);
 
 router.get('/manage_role', manage_role_Controller.Manage_role);
 
-
+// --------------- API ---------------
+// router.post('/manage_emp/is_duplicate_name', manage_emp_Controller.is_duplicate_name);
+router.get('/manage_emp/is_duplicate_name', manage_emp_Controller.is_duplicate_name);
+router.get('/manage_emp/is_duplicate_name_id', manage_emp_Controller.is_duplicate_name_id);
 
 module.exports = router;
