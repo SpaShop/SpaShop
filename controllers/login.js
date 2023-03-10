@@ -1,10 +1,6 @@
 
 const data_login = require('../models/login');
 
-exports.logout = (req, res) => {
-    req.session.destroy(function(err){});
-    res.redirect('/');
-};
 
 
 exports.getLogin = (req, res) => {
@@ -13,8 +9,6 @@ exports.getLogin = (req, res) => {
     req.session.user = "hello hello";
     req.session.role = 'admin';
     // TEST
-
-
     if( req.session.user_id ){
         res.redirect(`/${req.session.role}`)
     }else{
@@ -23,8 +17,7 @@ exports.getLogin = (req, res) => {
 
 };
 
-
-
+// ----------------------- Return Status -----------------------
 exports.vertify_login = async (req, res) => {
     // console.log(req.body);
     if(req.body.user && req.body.pwd ){
@@ -49,9 +42,14 @@ exports.vertify_login = async (req, res) => {
     }
         
 };
-
-
 exports.vertify_ensure_password = async (req, res) => {
     console.log(req.body);
     res.send({error:1});     
+};
+// ----------------------- Return Status -----------------------
+
+
+exports.logout = (req, res) => {
+    req.session.destroy(function(err){});
+    res.redirect('/');
 };
