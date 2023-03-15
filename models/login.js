@@ -13,7 +13,28 @@ exports.vertify_login = async (input) => {
         return undefined;
     }
 };
+exports.vertify_username = async (input) => {
+    let sql = `SELECT username FROM employee WHERE username = '${input.username}' and flag = 1 and flag_login = 0;`
+    let result = await con.query(sql)
+    if( result.length > 0 ){
+        return true;
+    }else{
+        return false;
+    }
+};
+exports.update_password_by_username = async (input) => {
+    let sql =   `   UPDATE employee SET password= '${sha.encrypt(input.pwd)}',flag_login=1
+                    WHERE username = '${input.username}' and flag = 1 and flag_login = 0;
+                `
+    let result = await con.query(sql)
+};
 
+
+/**
+ * 1.func ensure username
+ * 2.func save password and change flag_login
+ */
+// vertify_ensure_password
 
 
 

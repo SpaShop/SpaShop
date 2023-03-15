@@ -2,7 +2,7 @@
 const model = require('../../models/employee');
 
 exports.Manage_emp = async (req, res) => {
-
+    console.log("SES ",req.session);
     if( req.session.role === "admin" ){
         let db_employee =  await model.get_emp();
         let db_position =  await model.get_position();
@@ -40,8 +40,7 @@ exports.setEmployee =async (req, res) => {
     }
 };
 
-// ---------------------- AIP ----------------------
-
+// ---------------------- validate ----------------------
 exports.is_duplicate_name = async (req, res) => {
     let is_same = await model.is_duplicate_name(req.query).then((data)=>{return data})
     if(is_same === false){

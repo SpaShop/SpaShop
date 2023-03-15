@@ -9,7 +9,7 @@ exports.Manage_privileges = async (req, res) => {
         let db_emp_role =  await model_emp_role.get_emp_privileges();
         let db_privileges =  await model_emp_role.get_privileges();
         for(let i of db_emp_role){
-            i['privileges'] = await model_emp_role.get_privileges_detail({id:i.id});
+            i['privileges'] = await model_emp_role.get_privileges_detail_by_id({id:i.id});
         }
         res.render('template',{
             session_user_id:req.session.user_id,

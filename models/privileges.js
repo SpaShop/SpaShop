@@ -8,7 +8,7 @@ exports.get_emp_privileges = async () => {
     return result;
 };
 
-exports.get_privileges_detail = async (input) => {
+exports.get_privileges_detail_by_id = async (input) => {
     let sql = ` SELECT ed.id,ed.privileges_id,ed.emp_id,ep.name FROM employee_privileges_detail ed , employee_privileges ep 
                 where emp_id = ${input.id}  and ed.privileges_id = ep.id;`
     let result = await con.query(sql)

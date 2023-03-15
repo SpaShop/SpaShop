@@ -202,7 +202,10 @@
 			}).then((result)=>{
 				console.log(result.data);
 				if( result.data.success){
-					window.location=result.data.path;
+					toastr.success(result.data.code)
+					setTimeout(()=>{
+						window.location=result.data.path;
+					},300);
 				}else{
 					toastr.error(result.data.code)
 					// $('#alert-error1').text(result.data.code)
@@ -215,6 +218,10 @@
 		}
 
 		function sendForm_2(user,pwd1,pwd2){
+			if( pwd1.trim() !== pwd2.trim() ){
+				toastr.error("Password ไม่ตรงกัน.")
+				return ;
+			}
 			let params =new URLSearchParams();
 			params.append('user',user);
 			params.append('pwd1',pwd1);
@@ -225,9 +232,14 @@
 				data:params,
 				timeout:3000
 			}).then((result)=>{
-				toastr.error(result.data.code)
-				// if( result.data.status == 1 ){
-				//     window.location="/";
+				if( result.data.status == 1 ){
+					toastr.success(result.data.code)
+					setTimeout(()=>{
+						window.location="/";
+					},300);
+				}else{
+					toastr.error(result.data.code)
+				}
 			})
 		}
 

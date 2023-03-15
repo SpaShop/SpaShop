@@ -141,7 +141,18 @@
                 <% if( session_role == "admin"){ %>
                     <%- include('../menu/manage_emp'); %>
                     <%- include('../menu/manage_privileges'); %>
+                    <%- include('../menu/menu_product',{role:session_role}); %>
                 <% } %>
+                 
+                <% if( locals.session_privileges ){%>
+                    <% for(let i of session_privileges ){%>
+                        <% if ( i === 1){%>
+                          <%- include('../menu/menu_product',{role:session_role}); %>
+                        <%} %>
+                   
+                    <%}%>
+                <%} %>
+               
                 
               
             </li>
