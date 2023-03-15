@@ -25,6 +25,7 @@ exports.Manage_privileges = async (req, res) => {
     }
 
 };
+
 exports.Manage_privileges_update = async (req, res) => {
 
     if( req.session.role === "admin" ){

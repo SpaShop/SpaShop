@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2023 at 03:52 PM
+-- Generation Time: Mar 15, 2023 at 05:14 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -77,6 +77,48 @@ INSERT INTO `employee_position` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employee_privileges`
+--
+
+CREATE TABLE `employee_privileges` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_privileges`
+--
+
+INSERT INTO `employee_privileges` (`id`, `name`) VALUES
+(1, 'จัดการสินค้า'),
+(2, 'ทดลอง');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_privileges_detail`
+--
+
+CREATE TABLE `employee_privileges_detail` (
+  `id` int(11) NOT NULL,
+  `privileges_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_privileges_detail`
+--
+
+INSERT INTO `employee_privileges_detail` (`id`, `privileges_id`, `emp_id`) VALUES
+(14, 1, 22),
+(15, 2, 22),
+(16, 2, 27),
+(27, 1, 29),
+(28, 2, 29);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_category`
 --
 
@@ -130,7 +172,9 @@ INSERT INTO `menu_list` (`id`, `menu_name`, `menu_category_id`, `flag`) VALUES
 (14, 'นวดเท้า', 4, 1),
 (15, 'นวดน้ำมัน', 8, 1),
 (16, 'นวดตัว บน/ล่าง', 8, 1),
-(19, 'นวดทั่วไป', 4, 1);
+(19, 'นวดทั่วไป', 4, 1),
+(20, 'ABC', 9, 1),
+(21, 'BBB', 9, 1);
 
 --
 -- Indexes for dumped tables
@@ -146,6 +190,18 @@ ALTER TABLE `employee`
 -- Indexes for table `employee_position`
 --
 ALTER TABLE `employee_position`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employee_privileges`
+--
+ALTER TABLE `employee_privileges`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employee_privileges_detail`
+--
+ALTER TABLE `employee_privileges_detail`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -183,6 +239,18 @@ ALTER TABLE `employee_position`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `employee_privileges`
+--
+ALTER TABLE `employee_privileges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `employee_privileges_detail`
+--
+ALTER TABLE `employee_privileges_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
 -- AUTO_INCREMENT for table `menu_category`
 --
 ALTER TABLE `menu_category`
@@ -198,7 +266,7 @@ ALTER TABLE `menu_cost`
 -- AUTO_INCREMENT for table `menu_list`
 --
 ALTER TABLE `menu_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

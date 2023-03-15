@@ -78,6 +78,9 @@ exports.is_duplicate_name_id = async (req, res) => {
 };
 
 
+
+
+
 // ---------------------- product-item ----------------------
 
 exports.product_item = async (req, res) => {
@@ -86,7 +89,6 @@ exports.product_item = async (req, res) => {
     if( (req.session.role === "admin" || is_have_right(req.session.privileges) === true ) && db_category.length > 0 ){
         
         let db_product_item =  await model.get_product_item_by_id({id:req.query.id});
-        console.log(db_product_item);
         // Query Data;
         // console.log(db_category);
             res.render('template',{
@@ -122,9 +124,9 @@ exports.set_product_item =async (req, res) => {
     }
 };
 
+
 // ---------------------- validate ----------------------
 exports.is_duplicate_name_product_item = async (req, res) => {
-    console.log("CON ",req.query);
     let is_same = await model.is_duplicate_name_product_item(req.query).then((data)=>{return data})
     if(is_same === false){
         res.send({status:1});

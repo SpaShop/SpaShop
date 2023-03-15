@@ -1,5 +1,8 @@
 const con = require('../config/db_config.js')
 
+
+
+
 // -------------------- Product category --------------------
 exports.get_menu_category = async () => {
     let sql = `SELECT * FROM menu_category where flag = 1;`

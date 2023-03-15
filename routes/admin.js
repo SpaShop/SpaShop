@@ -17,9 +17,11 @@ router.post('/manage_emp/:action', manage_emp_controller.setEmployee);
 router.get('/manage_emp/is_duplicate_name', manage_emp_controller.is_duplicate_name);
 router.get('/manage_emp/is_duplicate_name_id', manage_emp_controller.is_duplicate_name_id);
 
+
 // ---------------  manage-privileges ---------------
 router.get('/manage_privileges', manage_role_controller.Manage_privileges);
 router.post('/manage_privileges/update', manage_role_controller.Manage_privileges_update);
+
 
 
 // ---------------  manage-product ---------------
