@@ -1,5 +1,4 @@
 
-
 <div class="container-fluid">
     
     
@@ -12,12 +11,25 @@
     </div>
   
    
-
+    
 
     <div class="d-flex  justify-content-start mb-1">
         <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add" onclick="">
             เพิ่มสินค้า
         </button>
+    </div>
+
+    <!-- ------------------------- Insert , Del : time ------------------------- -->
+    <div class="d-flex  justify-content-start mb-1">
+
+        <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add-time" onclick="">
+            เพิ่มราคาเเละเวลา
+        </button>
+
+        <button  type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#modal-del-time" onclick="">
+            ลบราคาเเละเวลา
+        </button>
+
     </div>
 
     <div class="row">
@@ -38,7 +50,15 @@
                             <tr>
                                 <td><%= i.id%></td>
                                 <td><%= i.menu_name%></td>
-                                <td>เวลาเเละราคา</td>
+                                <td>
+                                    <div class="m-2"> 
+                                        <p class=" btn-primary p-1 my-1 rounded d-inline">800/1ซม</p> 
+                                        <p class=" btn-primary p-1 my-1 rounded d-inline">800/1ซม</p> 
+                                    
+                                    </div>
+                                    
+                                    
+                                </td>
                                
                                 <td>
                                     <div class="d-flex">
@@ -67,6 +87,100 @@
     <input type="number" name="id_del" class="d-none" value="">
     <input type="number" class="d-none" name="category_id_del" value="<%= db_category[0].id %>" >
 </form>
+
+
+
+
+
+<!-- =================== Modal Insert Time ===================-->
+<div class="modal fade" id="modal-add-time">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-purple">
+          <h4 class="modal-title ">เพิ่มราคาเเละเวลา</h4>
+          <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="text-light">&times;</span>
+          </button>
+        </div>
+        <form id="mange_add" action="product_item/add" method="post">
+            <div class="modal-body">
+            <!-- ============================== Form ==============================-->
+                <div class="form-group">
+                    <label > เลือกรายการสินค้า</label>
+                    <select class="form-control">
+                        <% for(let i of db_product_item) {%>
+                            <option value="<%= i.id%>"><%= i.menu_name%></option>
+                        <%}%>
+
+                    </select>
+                </div>
+                <label >เวลาเเละราคา</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">เวลา</span>
+                    <input type="text" class="form-control bs-timepicker">
+                    <span class="input-group-text" id="basic-addon1">ราคา</span>
+                    <input type="number" class="form-control ">
+                    <!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"> -->
+                </div>
+        
+            </div>
+            
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="return vali('add')">Save changes</button>
+            </div>
+
+        </form>
+
+      </div>
+    </div>
+</div>
+
+<!-- =================== Modal Delete Time ===================-->
+<div class="modal fade" id="modal-del-time">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-purple">
+          <h4 class="modal-title ">ลบราคาเเละเวลา</h4>
+          <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="text-light">&times;</span>
+          </button>
+        </div>
+        <form id="mange_add" action="product_item/add" method="post">
+            <div class="modal-body">
+            <!-- ============================== Form ==============================-->
+                <div class="form-group">
+                    <label > เลือกรายการสินค้า</label>
+                    <input type="text" class="form-control" name="product_name">
+                    <!-- <input type="number" class="form-control d-none" name="category_id" value="<%= db_category[0].id %>" > -->
+                </div>
+                <label >เวลาเเละราคา</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <input type="checkbox">
+                        </span>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
+                  
+            </div>
+            
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="return vali('add')">Save changes</button>
+            </div>
+
+        </form>
+
+      </div>
+    </div>
+</div>
+
+
+
+
+
 
 <!-- =================== Modal Insert ===================-->
 <div class="modal fade" id="modal-add">
@@ -141,6 +255,7 @@
 
 <script src="/axios/axios.min.js"></script>
 <script>
+    
     function axios_validation(url,params,form_id,error_text){
         axios({
             url:url,
@@ -162,7 +277,10 @@
 
 
 <script>
-    
+    //------------- time picker -------------
+    $(function () {
+        $('.bs-timepicker').timepicker();
+    });
     
     $(function () {
       $('#employee').DataTable({

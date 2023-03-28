@@ -89,8 +89,12 @@ exports.product_item = async (req, res) => {
     if( (req.session.role === "admin" || is_have_right(req.session.privileges) === true ) && db_category.length > 0 ){
         
         let db_product_item =  await model.get_product_item_by_id({id:req.query.id});
+        let db_product_cost;
+        for(let i of db_product_item){
+            db_product_cost =  await model.get_product_cost_by_id({id:db_product_item.id});
+        }
         // Query Data;
-        // console.log(db_category);
+        console.log(db_product_cost);
             res.render('template',{
                 session_user_id:req.session.user_id,
                 session_user:req.session.user,
