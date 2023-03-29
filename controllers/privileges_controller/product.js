@@ -91,10 +91,9 @@ exports.product_item = async (req, res) => {
         let db_product_item =  await model.get_product_item_by_id({id:req.query.id});
         let db_product_cost;
         for(let i of db_product_item){
-            db_product_cost =  await model.get_product_cost_by_id({id:db_product_item.id});
+            i['cost'] =  await model.get_product_cost_by_id({id:i.id});
         }
         // Query Data;
-        console.log(db_product_cost);
             res.render('template',{
                 session_user_id:req.session.user_id,
                 session_user:req.session.user,
@@ -111,6 +110,8 @@ exports.product_item = async (req, res) => {
     }
 
 };
+
+
 exports.set_product_item =async (req, res) => {
     if( req.session.role == "admin" || is_have_right(req.session.privileges) === true ){
         if(req.params.action === "add"){
@@ -127,6 +128,38 @@ exports.set_product_item =async (req, res) => {
         res.redirect("/");
     }
 };
+
+
+// ========================================= Item : time,price =========================================
+
+exports.set_item_cost =async (req, res) => {
+    if( req.session.role == "admin" || is_have_right(req.session.privileges) === true ){
+        if(req.params.action === "add"){
+            await model.insert_product_cost(req.body).then((data)=>{return data});
+            res.redirect(`../../product_item?id=${req.body.category_id}`);
+        }else if(req.params.action === "del"){
+          
+            // console.log("itme del", typeof req.body.cost_del );
+            if( typeof(req.body.cost_del) === 'string'){
+                await model.delete_product_cost({id_cost:req.body.cost_del}).then((data)=>{return data});
+            }else if( typeof(req.body.cost_del) === 'object'){
+                for(let i of req.body.cost_del){
+                    await model.delete_product_cost({id_cost:i}).then((data)=>{return data});
+                }
+            }
+            res.redirect(`../../product_item?id=${req.body.category_id}`);
+        }
+    }else{
+        res.redirect("/");
+    }
+};
+
+// ========================================= Item : time,price =========================================
+
+
+
+
+
 
 
 // ---------------------- validate ----------------------

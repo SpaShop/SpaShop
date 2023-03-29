@@ -30,6 +30,7 @@ router.post('/manage_product/:action', product_controller.set_product);
 
 router.get('/product_item',product_controller.product_item);
 router.post('/product_item/:action', product_controller.set_product_item);
+router.post('/product_item/cost/:action', product_controller.set_item_cost);
 
 // --------------- validate manage-product ---------------
 router.get('/manage_product/is_duplicate_name', product_controller.is_duplicate_name);

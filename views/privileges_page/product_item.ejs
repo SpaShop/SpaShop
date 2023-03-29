@@ -41,7 +41,7 @@
                         <tr>
                             <th>ID</th>
                             <th>ชื่อสินค้า</th>
-                            <th>เวลาเเละราคา</th>
+                            <th>ราคาเเละเวลา</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -52,11 +52,11 @@
                                 <td><%= i.menu_name%></td>
                                 <td>
                                     <div class="m-2"> 
-                                        <p class=" btn-primary p-1 my-1 rounded d-inline">800/1ซม</p> 
-                                        <p class=" btn-primary p-1 my-1 rounded d-inline">800/1ซม</p> 
-                                    
+                                        <% for(let cost of i.cost) {%>
+                                            <p class=" btn-primary p-1 my-1 rounded d-inline"><%=cost.price%>/<%=cost.time%> ซม</p> 
+                                            <!-- <p class=" btn-primary p-1 my-1 rounded d-inline">800/1ซม</p>  -->
+                                        <% } %>
                                     </div>
-                                    
                                     
                                 </td>
                                
@@ -102,32 +102,29 @@
             <span aria-hidden="true" class="text-light">&times;</span>
           </button>
         </div>
-        <form id="mange_add" action="product_item/add" method="post">
+        <form id="mange_add" action="product_item/cost/add" method="post">
+            <input type="number" class="form-control d-none" name="category_id" value="<%= db_category[0].id %>" >
             <div class="modal-body">
             <!-- ============================== Form ==============================-->
                 <div class="form-group">
                     <label > เลือกรายการสินค้า</label>
-                    <select class="form-control">
+                    <select class="form-control" name="cost_id">
                         <% for(let i of db_product_item) {%>
                             <option value="<%= i.id%>"><%= i.menu_name%></option>
                         <%}%>
-
                     </select>
                 </div>
                 <label >เวลาเเละราคา</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">เวลา</span>
-                    <input type="text" class="form-control bs-timepicker">
+                    <input type="text" class="form-control bs-timepicker"  name="cost_time">
                     <span class="input-group-text" id="basic-addon1">ราคา</span>
-                    <input type="number" class="form-control ">
-                    <!-- <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"> -->
+                    <input type="number" class="form-control " name="cost_price">
                 </div>
-        
             </div>
-            
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" onclick="return vali('add')">Save changes</button>
+                <button type="submit" class="btn btn-primary" onclick="return vali_add_time()">Save changes</button>
             </div>
 
         </form>
@@ -146,29 +143,30 @@
             <span aria-hidden="true" class="text-light">&times;</span>
           </button>
         </div>
-        <form id="mange_add" action="product_item/add" method="post">
+        <form id="mange_add" action="product_item/cost/del" method="post">
+            <input type="number" class="form-control d-none" name="category_id" value="<%= db_category[0].id %>" >
             <div class="modal-body">
             <!-- ============================== Form ==============================-->
                 <div class="form-group">
                     <label > เลือกรายการสินค้า</label>
-                    <input type="text" class="form-control" name="product_name">
-                    <!-- <input type="number" class="form-control d-none" name="category_id" value="<%= db_category[0].id %>" > -->
+                    <select class="form-control" name="Ucost_id" onchange="open_option('<%=JSON.stringify(db_product_item)%>')" >
+                        <option value=""  ></option>
+                        <% for(let i of db_product_item) {%>
+                            <option value="<%= i.id%>"  ><%= i.menu_name%></option>
+                        <%}%>
+                    </select>
                 </div>
                 <label >เวลาเเละราคา</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <input type="checkbox">
-                        </span>
-                    </div>
-                    <input type="text" class="form-control">
+                <div id="cost_del">
+                    <!-- init -->
+                    
                 </div>
                   
             </div>
             
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" onclick="return vali('add')">Save changes</button>
+                <button type="submit" class="btn btn-primary" onclick="return vali_del_time()">Save changes</button>
             </div>
 
         </form>
@@ -273,9 +271,6 @@
         });
     }
 </script>
-
-
-
 <script>
     //------------- time picker -------------
     $(function () {
@@ -358,6 +353,84 @@
         
     }
   
+</script>
+
+<script>
+    // ========================= For delete Cost =========================
+    /*
+    <div class="custom-control custom-checkbox">
+        <input class="custom-control-input custom-control-input-danger " type="checkbox" id="t2" >
+        <label for="t2" class="custom-control-label"> 250/1ซม </label>
+    </div>
+    */
+    function open_option(input){
+        data = JSON.parse(input)
+        select = $('select[name=Ucost_id]').val()
+
+        let main = document.querySelector("#cost_del");
+        main.textContent = ''
+
+        for(let i of data){
+            if(i.id == select){
+                for(let x of i.cost){
+                    const box = document.createElement("div");
+                    box.className  = "custom-control custom-checkbox";
+
+                    const minput = document.createElement("input");
+                    minput.className  = "custom-control-input custom-control-input-danger"
+                    minput.type = "checkbox"
+                    minput.id = "n"+x.id
+                    minput.name = "cost_del"
+                    minput.value = x.id
+
+
+                    const label = document.createElement("label");
+                    label.className  = "custom-control-label"
+                    label.htmlFor = "n"+x.id
+                    label.innerText = `${x.price} / ${x.time}`
+
+                    box.appendChild(minput)
+                    box.appendChild(label)
+                    
+                    main.appendChild(box)
+                }
+            }
+        }
+    }
+
+    function vali_add_time(){
+        let cost_id = $("select[name=cost_id]").val();
+        let cost_time = $("input[name=cost_time]").val();
+        let cost_price = $("input[name=cost_price]").val();
+        // console.log(cost_id,cost_time,cost_price);
+        if( cost_id && cost_time && cost_price){
+            return true;
+        }else{
+            toastr.error("! กรุณาใส่ข้อมูลให้ครบ")
+            return false;
+        }
+        
+    }
+    function vali_del_time(){
+        let cost_id = $("select[name=Ucost_id]").val();
+        let cost_del = document.querySelectorAll("input[name=cost_del]");
+        let isCheck = false;
+        for(let i of cost_del){
+            if(i.checked  == true){
+                isCheck = true;
+                break;
+            }
+        }
+        if( cost_id && isCheck ){
+            return true;
+        }else{
+            toastr.error("! กรุณาใส่ข้อมูลให้ครบ")
+            return false;
+        }
+        
+    }
+
+
 </script>
 
 

@@ -76,14 +76,27 @@ exports.delete_product_item = async (input) => {
 };
 
 
-
+// ========================================= Itme : time/price =========================================
 exports.get_product_cost_by_id = async (input) => {
     // id : menu_list_id
-    let sql = `SELECT * FROM menu_cost WHERE menu_list_id = '${input.id}' and  flag = 1  `
+    let sql = `SELECT * FROM menu_cost WHERE menu_list_id = ${input.id} and  flag = 1  `
     let result = await con.query(sql)
     return result;
 };
+exports.insert_product_cost = async (input) => {
+    // menuID , time , price , flag
 
+    let sql = ` INSERT INTO menu_cost( menu_list_id, time, price, flag) 
+                VALUES (${input.cost_id} , "${input.cost_time}" , ${input.cost_price} , 1);`
+
+    let result = await con.query(sql)
+};
+exports.delete_product_cost = async (input) => {
+    // Set flag to 0
+    let sql = ` UPDATE menu_cost SET flag = 0 WHERE id = ${parseInt(input.id_cost)}`
+    let result = await con.query(sql)
+};
+// ========================================= Itme : time/price =========================================
 
 
 
